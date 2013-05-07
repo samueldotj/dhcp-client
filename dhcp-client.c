@@ -1,3 +1,8 @@
+/*
+ * Simple DHCP Client
+ * License : BSD
+ * Author : Samuel Jacob (samueldotj@gmail.com)
+ */
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
