@@ -6,11 +6,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
-//#include <sys/sockio.h>
-//#include <arpa/inet.h>
 #include <net/ethernet.h>
 #include <net/if.h>
-//#include <net/if_dl.h>
+#ifndef __linux__
+#include <net/if_dl.h>
+#endif
 #include <netinet/in.h>
 #include <netinet/ip.h>
 
@@ -283,7 +283,7 @@ ip_output(struct ip *ip_header, int *len)
     ip_header->ip_v = IPVERSION;
     ip_header->ip_tos = 0x10;
     ip_header->ip_len = htons(*len);
-    ip_header->ip_id = htonl(0xffff);
+    ip_header->ip_id = htons(0xffff);
     ip_header->ip_off = 0;
     ip_header->ip_ttl = 16;
     ip_header->ip_p = IPPROTO_UDP;
@@ -369,7 +369,7 @@ static int
 dhcp_discovery(u_int8_t *mac)
 {
     int len = 0;
-    char packet[4096];
+    u_char packet[4096];
     struct udphdr *udp_header;
     struct ip *ip_header;
     dhcp_t *dhcp;
